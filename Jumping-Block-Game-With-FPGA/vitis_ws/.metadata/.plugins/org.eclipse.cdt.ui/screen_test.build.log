@@ -1,0 +1,55 @@
+20:38:06 **** Incremental Build of configuration Debug for project screen_test ****
+make all 
+'Building file: ../src/PmodOLEDrgb.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/PmodOLEDrgb.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jump_block_controller/export/jump_block_controller/sw/jump_block_controller/standalone_domain/bspinclude/include -mlittle-endian -mcpu=v11.0 -mxl-soft-mul -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/PmodOLEDrgb.d" -MT"src/PmodOLEDrgb.o" -o "src/PmodOLEDrgb.o" "../src/PmodOLEDrgb.c"
+'Finished building: ../src/PmodOLEDrgb.c'
+' '
+'Building file: ../src/PmodOLEDrgb_selftest.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/PmodOLEDrgb_selftest.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jump_block_controller/export/jump_block_controller/sw/jump_block_controller/standalone_domain/bspinclude/include -mlittle-endian -mcpu=v11.0 -mxl-soft-mul -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/PmodOLEDrgb_selftest.d" -MT"src/PmodOLEDrgb_selftest.o" -o "src/PmodOLEDrgb_selftest.o" "../src/PmodOLEDrgb_selftest.c"
+../src/PmodOLEDrgb_selftest.c: In function 'PMODOLEDRGB_Reg_SelfTest':
+../src/PmodOLEDrgb_selftest.c:36:13: warning: unused variable 'Index' [-Wunused-variable]
+   36 |         int Index;
+      |             ^~~~~
+'Finished building: ../src/PmodOLEDrgb_selftest.c'
+' '
+'Building file: ../src/main.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/main.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jump_block_controller/export/jump_block_controller/sw/jump_block_controller/standalone_domain/bspinclude/include -mlittle-endian -mcpu=v11.0 -mxl-soft-mul -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.c"
+'Finished building: ../src/main.c'
+' '
+'Building file: ../src/xspi.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/xspi.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jump_block_controller/export/jump_block_controller/sw/jump_block_controller/standalone_domain/bspinclude/include -mlittle-endian -mcpu=v11.0 -mxl-soft-mul -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/xspi.d" -MT"src/xspi.o" -o "src/xspi.o" "../src/xspi.c"
+'Finished building: ../src/xspi.c'
+' '
+'Building file: ../src/xspi_options.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/xspi_options.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jump_block_controller/export/jump_block_controller/sw/jump_block_controller/standalone_domain/bspinclude/include -mlittle-endian -mcpu=v11.0 -mxl-soft-mul -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/xspi_options.d" -MT"src/xspi_options.o" -o "src/xspi_options.o" "../src/xspi_options.c"
+'Finished building: ../src/xspi_options.c'
+' '
+'Building file: ../src/xspi_selftest.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/xspi_selftest.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jump_block_controller/export/jump_block_controller/sw/jump_block_controller/standalone_domain/bspinclude/include -mlittle-endian -mcpu=v11.0 -mxl-soft-mul -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/xspi_selftest.d" -MT"src/xspi_selftest.o" -o "src/xspi_selftest.o" "../src/xspi_selftest.c"
+'Finished building: ../src/xspi_selftest.c'
+' '
+'Building file: ../src/xspi_stats.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/xspi_stats.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jump_block_controller/export/jump_block_controller/sw/jump_block_controller/standalone_domain/bspinclude/include -mlittle-endian -mcpu=v11.0 -mxl-soft-mul -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/xspi_stats.d" -MT"src/xspi_stats.o" -o "src/xspi_stats.o" "../src/xspi_stats.c"
+'Finished building: ../src/xspi_stats.c'
+' '
+'Building target: screen_test.elf'
+'Invoking: MicroBlaze gcc linker'
+mb-gcc -Wl,-T -Wl,../src/lscript.ld -LD:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jump_block_controller/export/jump_block_controller/sw/jump_block_controller/standalone_domain/bsplib/lib -mlittle-endian -mcpu=v11.0 -mxl-soft-mul -Wl,--no-relax -Wl,--gc-sections -o "screen_test.elf"  ./src/PmodOLEDrgb.o ./src/PmodOLEDrgb_selftest.o ./src/main.o ./src/xspi.o ./src/xspi_options.o ./src/xspi_selftest.o ./src/xspi_stats.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: screen_test.elf'
+' '
+'Invoking: MicroBlaze Print Size'
+mb-size screen_test.elf  |tee "screen_test.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  26692	    512	  65968	  93172	  16bf4	screen_test.elf
+'Finished building: screen_test.elf.size'
+' '
+
+20:38:07 Build Finished (took 1s.107ms)
+

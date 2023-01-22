@@ -1,0 +1,55 @@
+02:19:49 **** Incremental Build of configuration Release for project jumping_box ****
+make all 
+'Building file: ../src/main.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O3 -c -fmessage-length=0 -MT"src/main.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jump_box_controller/export/jump_box_controller/sw/jump_box_controller/standalone_microblaze_0/bspinclude/include -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-soft-div -mcpu=v11.0 -mno-xl-soft-mul -mxl-multiply-high -mhard-float -mxl-float-convert -mxl-float-sqrt -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.c"
+In file included from ../src/main.c:1:
+../src/include/bitmap.h:7:1: warning: "/*" within comment [-Wcomment]
+    7 | /*                                                                            */
+      |  
+In file included from ../src/main.c:4:
+../src/include/bitmap_lose.h:7:1: warning: "/*" within comment [-Wcomment]
+    7 | /*                                                                            */
+      |  
+In file included from ../src/main.c:5:
+../src/include/bitmap_win.h:7:1: warning: "/*" within comment [-Wcomment]
+    7 | /*                                                                            */
+      |  
+../src/main.c: In function 'main':
+../src/main.c:74:15: warning: implicit declaration of function 'getpid'; did you mean 'mtpid'? [-Wimplicit-function-declaration]
+   74 |         srand(getpid());
+      |               ^~~~~~
+      |               mtpid
+../src/main.c: In function 'GameWrapper':
+../src/main.c:453:42: warning: 'y_max' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  453 |                 for (int8_t y = y_min; y <= y_max; y++)
+      |                                        ~~^~~~~~~~
+../src/main.c:426:23: note: 'y_max' was declared here
+  426 |         int8_t y_min, y_max;
+      |                       ^~~~~
+../src/main.c:426:16: warning: 'y_min' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  426 |         int8_t y_min, y_max;
+      |                ^~~~~
+../src/main.c: In function 'CalcBox':
+../src/main.c:453:42: warning: 'y_max' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  453 |                 for (int8_t y = y_min; y <= y_max; y++)
+      |                                        ~~^~~~~~~~
+../src/main.c:426:16: warning: 'y_min' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  426 |         int8_t y_min, y_max;
+      |                ^~~~~
+'Finished building: ../src/main.c'
+' '
+'Building target: jumping_box.elf'
+'Invoking: MicroBlaze gcc linker'
+mb-gcc -Wl,-T -Wl,../src/lscript.ld -LD:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jump_box_controller/export/jump_box_controller/sw/jump_box_controller/standalone_microblaze_0/bsplib/lib -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-soft-div -mcpu=v11.0 -mno-xl-soft-mul -mxl-multiply-high -mhard-float -mxl-float-convert -mxl-float-sqrt -Wl,--no-relax -Wl,--gc-sections -o "jumping_box.elf"  ./src/PmodOLEDrgb.o ./src/PmodOLEDrgb_selftest.o ./src/box.o ./src/main.o ./src/obstacles.o ./src/platform.o ./src/xspi.o ./src/xspi_options.o ./src/xspi_selftest.o ./src/xspi_stats.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: jumping_box.elf'
+' '
+'Invoking: MicroBlaze Print Size'
+mb-size jumping_box.elf  |tee "jumping_box.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  57896	   1480	 131176	 190552	  2e858	jumping_box.elf
+'Finished building: jumping_box.elf.size'
+' '
+
+02:19:49 Build Finished (took 480ms)
+

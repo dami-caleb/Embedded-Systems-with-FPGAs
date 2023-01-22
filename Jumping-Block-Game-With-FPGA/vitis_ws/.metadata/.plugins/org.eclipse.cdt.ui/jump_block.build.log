@@ -1,0 +1,38 @@
+22:13:00 **** Incremental Build of configuration Debug for project jump_block ****
+make all 
+'Building file: ../src/main.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/main.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_controller/export/jumping_block_controller/sw/jumping_block_controller/standalone_microblaze_0/bspinclude/include -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-soft-div -mcpu=v11.0 -mno-xl-soft-mul -mxl-multiply-high -mhard-float -mxl-float-convert -mxl-float-sqrt -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.c"
+In file included from ../src/main.c:1:
+../src/include/bitmap.h:7:1: warning: "/*" within comment [-Wcomment]
+    7 | /*                                                                            */
+      |  
+In file included from ../src/main.c:4:
+../src/include/bitmap_lose.h:7:1: warning: "/*" within comment [-Wcomment]
+    7 | /*                                                                            */
+      |  
+In file included from ../src/main.c:5:
+../src/include/bitmap_win.h:7:1: warning: "/*" within comment [-Wcomment]
+    7 | /*                                                                            */
+      |  
+../src/main.c: In function 'main':
+../src/main.c:62:15: warning: implicit declaration of function 'getpid'; did you mean 'mtpid'? [-Wimplicit-function-declaration]
+   62 |         srand(getpid());
+      |               ^~~~~~
+      |               mtpid
+'Finished building: ../src/main.c'
+' '
+'Building target: jump_block.elf'
+'Invoking: MicroBlaze gcc linker'
+mb-gcc -Wl,-T -Wl,../src/lscript.ld -LD:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_controller/export/jumping_block_controller/sw/jumping_block_controller/standalone_microblaze_0/bsplib/lib -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-soft-div -mcpu=v11.0 -mno-xl-soft-mul -mxl-multiply-high -mhard-float -mxl-float-convert -mxl-float-sqrt -Wl,--no-relax -Wl,--gc-sections -o "jump_block.elf"  ./src/PmodOLEDrgb.o ./src/PmodOLEDrgb_selftest.o ./src/box.o ./src/main.o ./src/obstacles.o ./src/xspi.o ./src/xspi_options.o ./src/xspi_selftest.o ./src/xspi_stats.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: jump_block.elf'
+' '
+'Invoking: MicroBlaze Print Size'
+mb-size jump_block.elf  |tee "jump_block.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  71060	   1520	 131180	 203760	  31bf0	jump_block.elf
+'Finished building: jump_block.elf.size'
+' '
+
+22:13:01 Build Finished (took 489ms)
+

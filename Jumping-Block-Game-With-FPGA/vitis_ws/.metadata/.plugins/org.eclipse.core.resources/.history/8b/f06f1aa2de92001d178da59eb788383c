@@ -1,0 +1,563 @@
+#include "include/bitmap.h"
+#include "include/box.h"
+#include "include/obstacles.h"
+#include "include/bitmap_lose.h"
+#include "include/bitmap_win.h"
+#include "include/startscreen.h"
+
+#include "PmodOLEDrgb.h"
+#include "sleep.h"
+#include "xil_cache.h"
+#include "xparameters.h"
+#include "platform.h"
+#include "xgpio.h"
+#include "xil_printf.h"
+
+#define INIT 0
+#define GAME 1
+#define LOSE 2
+#define WIN  3
+#define EXIT 4
+
+#define INIT_LED 0x00000001
+#define GAME_LED 0x00000002
+#define LOSE_LED 0x00000004
+#define WIN_LED	 0x00000010
+#define EXIT_LED 0x00000020
+
+#define MS10 10000
+
+
+
+
+void GameInitialize();
+void GameWrapper(XGpio *io, u32 *input, u32 *last_input, struct rgb_val map_arr[V_WIDTH][V_HEIGHT], struct box *player, bool *alive, u16 *point_count, u16 *last_count, u16 *obstacle_count, u8 *active_obstacles,  struct static_obstacle static_top, struct static_obstacle static_bottom, struct dynamic_obstacle obstacles_list[DYN_OBST_BUFF_SIZE]);
+void CalcBox(struct rgb_val map_arr[V_WIDTH][V_HEIGHT], struct box player);
+void CalcObstacles(struct rgb_val map_arr[V_WIDTH][V_HEIGHT], struct static_obstacle static_top, struct static_obstacle static_bottom, u8 active_obstacles, struct dynamic_obstacle obstacles_list[DYN_OBST_BUFF_SIZE]);
+void DrawBackground(PmodOLEDrgb *oledrgb);
+void ResetArray(struct rgb_val map_arr[V_WIDTH][V_HEIGHT]);
+void DrawObjects(PmodOLEDrgb *oledrgb, struct rgb_val map_arr[V_WIDTH][V_HEIGHT]);
+void GameCleanup();
+void EnableCaches();
+void DisableCaches();
+void UpdatePoints(struct box player, u8 active_obstacles, struct dynamic_obstacle obstacles_list[DYN_OBST_BUFF_SIZE], u16 *point_count);
+void ClaimPoint(u16 *point_count, struct dynamic_obstacle *dyn_obst);
+void ClearScreenAndResetCursor();
+void CheckCollision(bool *alive, struct box player, u8 active_obstacles, struct dynamic_obstacle obstacles_list[DYN_OBST_BUFF_SIZE]);
+
+
+void ScreenInit(PmodOLEDrgb *oledrgb);
+void ScreenWin(PmodOLEDrgb *oledrgb);
+void ScreenLost(PmodOLEDrgb *oledrgb);
+
+
+
+/*u8 rgbUserFont[] = {
+   0x00, 0x04, 0x02, 0x1F, 0x02, 0x04, 0x00, 0x00, // 0x00
+   0x0E, 0x1F, 0x15, 0x1F, 0x17, 0x10, 0x1F, 0x0E, // 0x01
+   0x00, 0x1F, 0x11, 0x00, 0x00, 0x11, 0x1F, 0x00, // 0x02
+   0x00, 0x0A, 0x15, 0x11, 0x0A, 0x04, 0x00, 0x00, // 0x03
+   0x07, 0x0C, 0xFA, 0x2F, 0x2F, 0xFA, 0x0C, 0x07  // 0x04
+}; // This table defines 5 user characters, although only one is used
+*/
+
+int main(void) {
+	char state = 'I';
+	bool alive = true;
+	u16 point_count = 0;
+	u16 last_count = 1;
+
+	u32 input = 0;
+	u32 last_input = 0;
+
+	// Run the seed once
+	srand(getpid());
+
+	struct rgb_val map_arr[V_WIDTH][V_HEIGHT];
+
+	struct dynamic_obstacle obstacles_list[DYN_OBST_BUFF_SIZE];
+
+	u16 obstacle_count = 0;
+	u8 active_obstacles = 0;
+
+	// Initialise static obstacles
+	struct static_obstacle top_static = init_static_obstacle(obstacle_count, TOP);
+	obstacle_count++;
+	struct static_obstacle bottom_static = init_static_obstacle(obstacle_count, BOTTOM);
+	obstacle_count++;
+
+	struct box player = init_box();
+
+	bool run = true;
+	bool win = false;
+	bool exit = false;
+
+	init_platform();
+
+	XGpio io;
+	XGpio_Config io_config;
+
+	XGpio ledio;
+	XGpio_Config ledio_config;
+
+	// Init IO
+	u8 ioinit = 1;
+	u8 ledinit = 1;
+
+	while (ioinit)
+		ioinit = XGpio_CfgInitialize(&io, &io_config, 0x40010000);
+	while(ledinit)
+		ledinit = XGpio_CfgInitialize(&ledio, &ledio_config, 0x40000000);
+
+
+	while(run)
+	{
+
+
+		//Init OLED
+		PmodOLEDrgb oledrgb;
+
+		OLEDrgb_begin(&oledrgb, XPAR_PMODOLEDRGB_0_AXI_LITE_GPIO_BASEADDR,
+			 XPAR_PMODOLEDRGB_0_AXI_LITE_SPI_BASEADDR);
+
+		switch (state)
+			{
+				case 'I':
+					//ClearScreenAndResetCursor(&oledrgb);
+					ScreenInit(&oledrgb);
+					xil_printf("Press 'jump' to start! Any other button exit the game. \n\r");
+					//Turn on INIT LED
+					XGpio_DiscreteWrite(&ledio, 1, INIT_LED);
+
+					bool input_check = false;
+
+					while (input_check == false)
+					{
+						// Check input
+						input = XGpio_DiscreteRead(&io, 1);
+						//xil_printf("input: %i\n\r", input);
+
+						// If jump is pressed reset all value and go to GAME state (middle button)
+						if (input == 1)
+						{
+							state = 'G';
+							alive = true;
+							obstacle_count = 0;
+							active_obstacles = 0;
+							last_count = 1;
+							point_count = 0;
+							//xil_printf("Parameter reset!\n\r");
+							input_check = true;
+							player = init_box();
+						}
+
+						//If 0 then do nothing
+						else if (input == 0){}
+
+						//If exit is pressed (Any other combination)
+						else
+						{
+							state = 'E';
+							input_check = true;
+						}
+						// Sleep for 100ms
+						usleep(MS10);
+					}
+
+					break;
+
+				case 'G':
+					//Turn on GAME LED
+					XGpio_DiscreteWrite(&ledio, 1, GAME_LED);
+
+					xil_printf("Game Start!\n\r");
+
+					while (alive && !win && !exit)
+					{
+
+						// If exit is pressed (any other combination)
+						if(input != 0 && input != 1)
+						{
+							state = 'E';
+							exit = true;
+							break;
+						}
+						// Win at 999 points
+						else if (alive && point_count == 9)
+						{
+							win = true;
+							state = 'W';
+							break;
+						}
+
+						// Run the game
+						else
+						{
+							GameWrapper(&io, &input, &last_input, map_arr, &player, &alive, &point_count, &last_count, &obstacle_count, &active_obstacles, top_static, bottom_static, obstacles_list);
+							//Clear screen
+							//ClearScreenAndResetCursor(&oledrgb);
+
+							//Draw background
+							DrawBackground(&oledrgb);
+							//xil_printf("Background drawn!\n\r");
+
+							//Draw obstacles and block
+							DrawObjects(&oledrgb, map_arr);
+							//xil_printf("Object drawn!\n\r");
+
+
+							//xil_printf("Active obstacles count: %i\n\r", active_obstacles);
+							state = 'G';
+						}
+
+						// not alive then go to game over screen
+						if(!alive)
+						{
+							state = 'L';
+							break;
+						}
+
+						// sleep for 10us
+						usleep(10);
+
+					}
+
+					break;
+
+				case 'L':
+					//Turn on LOSE LED
+					XGpio_DiscreteWrite(&ledio, 1, LOSE_LED);
+					xil_printf("Try again next time..... :( \n\r(Press 'jump' to return or any other to exit)\n\r");
+                    // Display lose screen
+                	ScreenLost(&oledrgb);
+                	input_check = false;
+
+					while (!input_check)
+					{
+						input = XGpio_DiscreteRead(&io, 1);
+
+						// If jump is pressed reset all value and go to IDLE state (middle button)
+						if (input == 1)
+						{
+							state = 'I';
+							input_check = true;
+						}
+
+
+						//If 0 then do nothing
+						else if (input == 0){}
+
+						//If exit is pressed (Any other combination)
+						else
+						{
+							state = 'E';
+							input_check = true;
+						}
+						// Sleep for 100 ms before trying again
+						usleep(MS10);
+					}
+
+                    break;
+
+				case 'W':
+					xil_printf("You are a WINNER! :) \n\rOne more time? (Press 'jump' to return or any other to exit)\n\r");
+					//Turn on WIN LED
+					//XGpio_DiscreteWrite(&io, 2, WIN_LED);
+
+					// Display lose screen
+					ScreenWin(&oledrgb);
+					input_check = false;
+
+					while (!input_check)
+					{
+						input = XGpio_DiscreteRead(&io, 1);
+
+						// If jump is pressed reset all value and go to IDLE state (middle button)
+						if (input == 1)
+						{
+							state = 'I';
+							input_check = true;
+						}
+
+						//If 0 then do nothing
+						else if (input == 0){}
+
+						//If exit is pressed (Any other combination)
+						else
+						{
+							state = 'E';
+							input_check = true;
+						}
+						// Sleep for 100 ms before trying again
+						usleep(MS10);
+					}
+					break;
+
+				case 'E':
+					//XGpio_DiscreteWrite(&io, 2, EXIT_LED);
+
+					xil_printf("Good bye!\n\r");
+					ClearScreenAndResetCursor(&oledrgb);
+					//Turn on EXIT LED
+
+					run = false;
+					break;
+
+			}
+
+		// Break the loop and exit
+		if (state=='E')
+			break;
+
+	}
+
+	cleanup_platform();
+	return 0;
+}
+
+void GameWrapper(XGpio *io, u32 *input, u32 *last_input, struct rgb_val map_arr[V_WIDTH][V_HEIGHT], struct box *player, bool *alive, u16 *point_count, u16 *last_count, u16 *obstacle_count, u8 *active_obstacles,  struct static_obstacle static_top, struct static_obstacle static_bottom, struct dynamic_obstacle obstacles_list[DYN_OBST_BUFF_SIZE])
+{
+
+	//Move dynamic obstacles
+	move_obstacles(active_obstacles, obstacles_list);
+	//xil_printf("Obstacles moved!\n\r");
+
+	//Check input
+	*last_input = *input;
+
+	*input = XGpio_DiscreteRead(io, 1);
+
+	if(*last_input == 0 && *input == 1)
+		//Move player
+		box_vertical_mov(true, player);
+	else
+		//Gravity
+		box_vertical_mov(false, player);
+
+	//xil_printf("Box moved!\n\r");
+
+	// Check collision
+	CheckCollision(alive, *player, *active_obstacles, obstacles_list);
+
+	// Update points
+	UpdatePoints(*player, *active_obstacles, obstacles_list, point_count);
+	//xil_printf("Point updated!\n\r");
+
+	if (*last_count != *point_count)
+	{
+		xil_printf("Current point: %i\n\r", *point_count);
+		*last_count = *point_count;
+	}
+
+	// Reset object map array
+	ResetArray(map_arr);
+	//xil_printf("Array reset!\n\r");
+
+	//Calc obstacles
+	CalcObstacles(map_arr, static_top, static_bottom, *active_obstacles, obstacles_list);
+	//xil_printf("Obstacle has been loaded to array!\n\r");
+
+	//Calc block
+	CalcBox(map_arr, *player);
+	//xil_printf("Box has been loaded to array!\n\r");
+
+
+	//Generate new obstacles
+	generate_obstacle(obstacle_count, active_obstacles, obstacles_list);
+	//xil_printf("New obstacle check done!\n\r");
+}
+
+
+void ClearScreenAndResetCursor(PmodOLEDrgb *oledrgb)
+{
+	OLEDrgb_Clear(oledrgb);
+	OLEDrgb_SetCursor(oledrgb, 0, 0);
+
+}
+/*void GameInitialize() {
+    EnableCaches();
+    OLEDrgb_begin(&oledrgb, XPAR_PMODOLEDRGB_0_AXI_LITE_GPIO_BASEADDR,
+         XPAR_PMODOLEDRGB_0_AXI_LITE_SPI_BASEADDR);
+    //ScreenInit();
+
+}*/
+
+void DrawBackground(PmodOLEDrgb *oledrgb)
+{
+	//xil_printf("Attempting to draw background!\n\r");
+	OLEDrgb_DrawBitmap(oledrgb, 0, 0, 95, 63, (u8*) background);
+}
+
+void DrawObjects(PmodOLEDrgb *oledrgb, struct rgb_val map_arr[V_WIDTH][V_HEIGHT])
+{
+	for (u8 x = 0; x < V_WIDTH; x++)
+	{
+		for (u8 y = 0; y < V_HEIGHT; y++)
+		{
+			// If the pixel is set then draw the pixel (column and row is reversed since screen is horizontal)
+			// The X axis is decreasing instead of increasing now. Y just needed to be flipped.
+			if (map_arr[x][y].set)
+				OLEDrgb_DrawPixel(oledrgb, (V_HEIGHT-1-y), x, OLEDrgb_BuildRGB(map_arr[x][y].r, map_arr[x][y].g, map_arr[x][y].b));
+		}
+	}
+}
+
+
+void ResetArray(struct rgb_val map_arr[V_WIDTH][V_HEIGHT])
+{
+	for (u8 x = 0; x < V_WIDTH; x++)
+		{
+			for (u8 y = 0; y < V_HEIGHT; y++)
+				// Only need to reset the set flag. Low set flags are ignored
+				map_arr[x][y].set = false;
+		}
+}
+
+void CalcBox(struct rgb_val map_arr[V_WIDTH][V_HEIGHT], struct box player)
+{
+	// x axis
+	int8_t box_rear = player.pos[0] - player.box_mid2edge;
+	int8_t box_front = player.pos[0] + player.box_mid2edge;
+
+	// y axis
+	int8_t box_bottom = player.pos[1] + player.box_mid2edge;
+	int8_t box_top = player.pos[1] - player.box_mid2edge;
+
+	int8_t y_min, y_max;
+
+	// Draw box in array if the bottom is actually in frame
+	if (box_bottom >= 1 && box_bottom < V_HEIGHT)
+	{
+		y_max = box_bottom;
+
+		// if the top is also in frame
+		if (box_top >= 1)
+			y_min = box_top;
+		else
+			y_max = 1;
+
+	}
+
+	// Scenario where the box is clipping at the bottom of the screen
+	else if (box_top <  V_HEIGHT && box_top >= 1)
+	{
+		y_min = box_top;
+
+		// If the first condition is not true then the bottom of the box is outside of screen already
+		y_max = V_HEIGHT - 2;
+	}
+
+	// Loop to draw the box in the box in grey
+	for (int8_t x = box_rear; x <= box_front; x++)
+	{
+		for (int8_t y = y_min; y <= y_max; y++)
+		{
+			map_arr[x][y].r = 255;
+			map_arr[x][y].g = 255;
+			map_arr[x][y].b = 0;
+			map_arr[x][y].set = true;
+		}
+
+	}
+
+}
+
+void CalcObstacles(struct rgb_val map_arr[V_WIDTH][V_HEIGHT], struct static_obstacle static_top, struct static_obstacle static_bottom, u8 active_obstacles, struct dynamic_obstacle obstacles_list[DYN_OBST_BUFF_SIZE])
+{
+	//Draw the static obstacles
+	draw_stat_obstacle(static_top, map_arr);
+	draw_stat_obstacle(static_bottom, map_arr);
+
+	//Draw the dynamic obstacles
+	for (u8 i = 0; i < active_obstacles; i++)
+		draw_dyn_obstacle(obstacles_list[i], map_arr);
+
+
+}
+
+void UpdatePoints(struct box player, u8 active_obstacles, struct dynamic_obstacle obstacles_list[DYN_OBST_BUFF_SIZE], u16 *point_count)
+{
+	// loop through all obstacles
+	for (u8 i = 0; i < active_obstacles; i++)
+	{
+		// if player passed through the mid point and the point not claimed
+		if (player.pos[0] >= obstacles_list[i].coord_x_middle && !obstacles_list[i].point_claimed)
+			// increase the count and set as point claimed
+            ClaimPoint(point_count, &obstacles_list[i]);
+	}
+
+}
+
+void CheckCollision(bool *alive, struct box player, u8 active_obstacles, struct dynamic_obstacle obstacles_list[DYN_OBST_BUFF_SIZE])
+{
+	int8_t box_top = player.pos[1] - player.box_mid2edge;
+	int8_t box_bottom = player.pos[1] + player.box_mid2edge;
+
+	int8_t box_rear = player.pos[0] - player.box_mid2edge;
+	int8_t box_front = player.pos[0] + player.box_mid2edge;
+
+	// Check collision with static obstacles (height is either at the top or bottom)
+	if (box_top  <= 0 || box_bottom >= V_HEIGHT - 1)
+		*alive = false;
+
+	for (u8 i=0; i<active_obstacles;i++)
+	{
+		// if the player is in between the columns
+		if (box_front >= obstacles_list[i].coord_x_front && box_rear <= obstacles_list[i].coord_x_back)
+		{
+			// if the box's y collide with the column then no longer alive
+			if (box_top <= obstacles_list[i].coord_y_top || box_bottom >= obstacles_list[i].coord_y_bottom)
+				*alive = false;
+		}
+
+	}
+}
+
+void ClaimPoint(u16 *point_count, struct dynamic_obstacle *dyn_obst)
+{
+    *point_count += 1;
+    dyn_obst->point_claimed = true;
+}
+
+void GameCleanup(PmodOLEDrgb *oledrgb) {
+	OLEDrgb_end(oledrgb);
+	DisableCaches();
+}
+
+void EnableCaches() {
+#ifdef __MICROBLAZE__
+#ifdef XPAR_MICROBLAZE_USE_ICACHE
+   Xil_ICacheEnable();
+#endif
+#ifdef XPAR_MICROBLAZE_USE_DCACHE
+   Xil_DCacheEnable();
+#endif
+#endif
+}
+
+void DisableCaches() {
+#ifdef __MICROBLAZE__
+#ifdef XPAR_MICROBLAZE_USE_DCACHE
+   Xil_DCacheDisable();
+#endif
+#ifdef XPAR_MICROBLAZE_USE_ICACHE
+   Xil_ICacheDisable();
+#endif
+#endif
+}
+
+// Draw Init Screen according to bitmap
+void ScreenInit(PmodOLEDrgb *oledrgb) {
+	OLEDrgb_DrawBitmap(oledrgb, 0, 0, 95, 63, (u8*) StartScreen);
+}
+
+// Draw Lost Screen using bitmap
+void ScreenLost(PmodOLEDrgb *oledrgb) {
+    OLEDrgb_DrawBitmap(oledrgb, 0, 0, 95, 63, (u8*) background_lose);
+}
+
+// Draw Win Screen according to Bitmap
+void ScreenWin(PmodOLEDrgb *oledrgb) {
+    OLEDrgb_DrawBitmap(oledrgb, 0, 0, 95, 63, (u8*) background_win);
+}
+

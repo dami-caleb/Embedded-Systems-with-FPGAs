@@ -1,0 +1,40 @@
+19:06:23 **** Incremental Build of configuration Debug for project screen ****
+make all 
+'Building file: ../src/main.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/main.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_50mhz_Performance/export/jumping_block_50mhz_Performance/sw/jumping_block_50mhz_Performance/standalone_microblaze_0/bspinclude/include -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-soft-div -mcpu=v11.0 -mno-xl-soft-mul -mxl-multiply-high -mhard-float -mxl-float-convert -mxl-float-sqrt -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.c"
+In file included from D:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_50mhz_Performance/export/jumping_block_50mhz_Performance/sw/jumping_block_50mhz_Performance/standalone_microblaze_0/bspinclude/include/xil_printf.h:16,
+                 from D:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_50mhz_Performance/export/jumping_block_50mhz_Performance/sw/jumping_block_50mhz_Performance/standalone_microblaze_0/bspinclude/include/xil_io.h:49,
+                 from ../src/xspi_l.h:72,
+                 from ../src/xspi.h:314,
+                 from ../src/PmodOLEDrgb.h:32,
+                 from ../src/main.c:25:
+../src/main.c: In function 'main':
+D:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_50mhz_Performance/export/jumping_block_50mhz_Performance/sw/jumping_block_50mhz_Performance/standalone_microblaze_0/bspinclude/include/xparameters.h:491:51: warning: passing argument 1 of 'PMODOLEDRGB_Reg_SelfTest' makes pointer from integer without a cast [-Wint-conversion]
+  491 | #define XPAR_PMODOLEDRGB_0_AXI_LITE_GPIO_BASEADDR 0x44A00000
+      |                                                   ^~~~~~~~~~
+      |                                                   |
+      |                                                   int
+../src/main.c:33:34: note: in expansion of macro 'XPAR_PMODOLEDRGB_0_AXI_LITE_GPIO_BASEADDR'
+   33 |         PMODOLEDRGB_Reg_SelfTest(XPAR_PMODOLEDRGB_0_AXI_LITE_GPIO_BASEADDR);
+      |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ../src/main.c:25:
+../src/PmodOLEDrgb.h:152:40: note: expected 'void *' but argument is of type 'int'
+  152 | XStatus PMODOLEDRGB_Reg_SelfTest(void *baseaddr_p);
+      |                                  ~~~~~~^~~~~~~~~~
+'Finished building: ../src/main.c'
+' '
+'Building target: screen.elf'
+'Invoking: MicroBlaze gcc linker'
+mb-gcc -Wl,-T -Wl,../src/lscript.ld -LD:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_50mhz_Performance/export/jumping_block_50mhz_Performance/sw/jumping_block_50mhz_Performance/standalone_microblaze_0/bsplib/lib -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-soft-div -mcpu=v11.0 -mno-xl-soft-mul -mxl-multiply-high -mhard-float -mxl-float-convert -mxl-float-sqrt -Wl,--no-relax -Wl,--gc-sections -o "screen.elf"  ./src/PmodOLEDrgb.o ./src/PmodOLEDrgb_selftest.o ./src/main.o ./src/xspi.o ./src/xspi_options.o ./src/xspi_selftest.o ./src/xspi_stats.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: screen.elf'
+' '
+'Invoking: MicroBlaze Print Size'
+mb-size screen.elf  |tee "screen.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+   6632	    408	   3104	  10144	   27a0	screen.elf
+'Finished building: screen.elf.size'
+' '
+
+19:06:23 Build Finished (took 426ms)
+

@@ -1,0 +1,55 @@
+16:28:33 **** Incremental Build of configuration Debug for project trying_screen_again ****
+make all 
+'Building file: ../src/PmodOLEDrgb.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/PmodOLEDrgb.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_cache_50mhz/export/jumping_block_cache_50mhz/sw/jumping_block_cache_50mhz/standalone_microblaze_0/bspinclude/include -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-soft-div -mcpu=v11.0 -mno-xl-soft-mul -mxl-multiply-high -mhard-float -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/PmodOLEDrgb.d" -MT"src/PmodOLEDrgb.o" -o "src/PmodOLEDrgb.o" "../src/PmodOLEDrgb.c"
+'Finished building: ../src/PmodOLEDrgb.c'
+' '
+'Building file: ../src/PmodOLEDrgb_selftest.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/PmodOLEDrgb_selftest.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_cache_50mhz/export/jumping_block_cache_50mhz/sw/jumping_block_cache_50mhz/standalone_microblaze_0/bspinclude/include -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-soft-div -mcpu=v11.0 -mno-xl-soft-mul -mxl-multiply-high -mhard-float -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/PmodOLEDrgb_selftest.d" -MT"src/PmodOLEDrgb_selftest.o" -o "src/PmodOLEDrgb_selftest.o" "../src/PmodOLEDrgb_selftest.c"
+../src/PmodOLEDrgb_selftest.c: In function 'PMODOLEDRGB_Reg_SelfTest':
+../src/PmodOLEDrgb_selftest.c:36:13: warning: unused variable 'Index' [-Wunused-variable]
+   36 |         int Index;
+      |             ^~~~~
+'Finished building: ../src/PmodOLEDrgb_selftest.c'
+' '
+'Building file: ../src/main.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/main.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_cache_50mhz/export/jumping_block_cache_50mhz/sw/jumping_block_cache_50mhz/standalone_microblaze_0/bspinclude/include -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-soft-div -mcpu=v11.0 -mno-xl-soft-mul -mxl-multiply-high -mhard-float -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.c"
+'Finished building: ../src/main.c'
+' '
+'Building file: ../src/xspi.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/xspi.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_cache_50mhz/export/jumping_block_cache_50mhz/sw/jumping_block_cache_50mhz/standalone_microblaze_0/bspinclude/include -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-soft-div -mcpu=v11.0 -mno-xl-soft-mul -mxl-multiply-high -mhard-float -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/xspi.d" -MT"src/xspi.o" -o "src/xspi.o" "../src/xspi.c"
+'Finished building: ../src/xspi.c'
+' '
+'Building file: ../src/xspi_options.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/xspi_options.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_cache_50mhz/export/jumping_block_cache_50mhz/sw/jumping_block_cache_50mhz/standalone_microblaze_0/bspinclude/include -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-soft-div -mcpu=v11.0 -mno-xl-soft-mul -mxl-multiply-high -mhard-float -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/xspi_options.d" -MT"src/xspi_options.o" -o "src/xspi_options.o" "../src/xspi_options.c"
+'Finished building: ../src/xspi_options.c'
+' '
+'Building file: ../src/xspi_selftest.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/xspi_selftest.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_cache_50mhz/export/jumping_block_cache_50mhz/sw/jumping_block_cache_50mhz/standalone_microblaze_0/bspinclude/include -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-soft-div -mcpu=v11.0 -mno-xl-soft-mul -mxl-multiply-high -mhard-float -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/xspi_selftest.d" -MT"src/xspi_selftest.o" -o "src/xspi_selftest.o" "../src/xspi_selftest.c"
+'Finished building: ../src/xspi_selftest.c'
+' '
+'Building file: ../src/xspi_stats.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/xspi_stats.o" -ID:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_cache_50mhz/export/jumping_block_cache_50mhz/sw/jumping_block_cache_50mhz/standalone_microblaze_0/bspinclude/include -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-soft-div -mcpu=v11.0 -mno-xl-soft-mul -mxl-multiply-high -mhard-float -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/xspi_stats.d" -MT"src/xspi_stats.o" -o "src/xspi_stats.o" "../src/xspi_stats.c"
+'Finished building: ../src/xspi_stats.c'
+' '
+'Building target: trying_screen_again.elf'
+'Invoking: MicroBlaze gcc linker'
+mb-gcc -Wl,-T -Wl,../src/lscript.ld -LD:/Bruh_ELE_ELECTRONIC_ENGINEERING-B_LAB/Lab06-Project/vitis_ws/jumping_block_cache_50mhz/export/jumping_block_cache_50mhz/sw/jumping_block_cache_50mhz/standalone_microblaze_0/bsplib/lib -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mno-xl-soft-div -mcpu=v11.0 -mno-xl-soft-mul -mxl-multiply-high -mhard-float -Wl,--no-relax -Wl,--gc-sections -o "trying_screen_again.elf"  ./src/PmodOLEDrgb.o ./src/PmodOLEDrgb_selftest.o ./src/main.o ./src/xspi.o ./src/xspi_options.o ./src/xspi_selftest.o ./src/xspi_stats.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: trying_screen_again.elf'
+' '
+'Invoking: MicroBlaze Print Size'
+mb-size trying_screen_again.elf  |tee "trying_screen_again.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  26492	    520	   3508	  30520	   7738	trying_screen_again.elf
+'Finished building: trying_screen_again.elf.size'
+' '
+
+16:28:34 Build Finished (took 1s.62ms)
+

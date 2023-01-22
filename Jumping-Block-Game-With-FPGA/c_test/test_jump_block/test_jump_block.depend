@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1673531662 source:d:\bruh_ele_electronic_engineering-b_lab\lab06-project\c_test\test_jump_block\box.c
+	"include/box.h"
+
+1673371417 d:\bruh_ele_electronic_engineering-b_lab\lab06-project\c_test\test_jump_block\include\box.h
+	<stdio.h>
+	<stdbool.h>
+
+1673531700 source:d:\bruh_ele_electronic_engineering-b_lab\lab06-project\c_test\test_jump_block\obstacles.c
+	"include/obstacles.h"
+
+1673372514 d:\bruh_ele_electronic_engineering-b_lab\lab06-project\c_test\test_jump_block\include\obstacles.h
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+
+1673531717 source:d:\bruh_ele_electronic_engineering-b_lab\lab06-project\c_test\test_jump_block\main.c
+	<Windows.h>
+	"include/box.h"
+	"include/obstacles.h"
+
