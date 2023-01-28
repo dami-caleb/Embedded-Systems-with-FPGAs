@@ -28,4 +28,20 @@ https://user-images.githubusercontent.com/72282670/215273102-d6369bac-c37d-4aaf-
 
 
 
+
+
+
+
+
+
+
+
+**Activity Diagram**
+
+
+<img width="782" alt="Screenshot 2023-01-28 at 16 00 55" src="https://user-images.githubusercontent.com/72282670/215273544-549a1261-4c74-4b62-8fef-1c28bb467014.png">
+
+
+
+
  
