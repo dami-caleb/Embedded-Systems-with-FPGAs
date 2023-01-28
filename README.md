@@ -21,8 +21,10 @@ To implement the hardware, the processor that is used to control everything is t
 
 
 
+Game Demo:
 
 
+https://user-images.githubusercontent.com/72282670/215273102-d6369bac-c37d-4aaf-aad2-92ca035d4ab7.mp4
 
 
 
