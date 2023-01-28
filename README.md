@@ -17,6 +17,10 @@ To implement the hardware, the processor that is used to control everything is t
 
 
 
+<img width="1174" alt="Screenshot 2023-01-22 at 18 22 48" src="https://user-images.githubusercontent.com/72282670/215272958-326483b3-222a-44b1-bc13-140c96e471c6.png">
+
+
+
 
 
 
