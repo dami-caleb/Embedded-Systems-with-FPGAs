@@ -1,5 +1,0 @@
-ASICs (Application Specific Integrated Circuits) are integrated circuits that are manufactured for specific applications. The manufacturing process involves several steps, including specification extractions, design planning, front-end (i.e. logic) design, and back-end design (i.e. the physical implementation) [1]. The back-end design is a crucial step in the process, as a poorly designed physical implementation may lead to failure, poor performance, or errors within the integrated circuit.
-
-This paper provides an in-depth look at the physical implementation of ASICs, including the necessary steps and best practices involved. By following these best practices, common errors such as congestion, routing issues, clock errors, and design rule check fails can be avoided, resulting in a well-designed ASIC with optimal performance for its intended application.
-
-In summary, this paper aims to provide a comprehensive overview of the physical implementation and best practices of ASICs, helping engineers and designers create reliable, efficient, and high-performing ASICs.
